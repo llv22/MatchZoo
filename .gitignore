@@ -17,3 +17,7 @@ log/*
 .idea/
 .pytest_cache/
 MatchZoo.egg-info/
+
+# skip weights
+examples/toy_example/weights/
+
