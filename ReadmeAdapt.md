@@ -23,6 +23,7 @@ mv glove.6B.50d.txt ../../data/toy_example/classification/
 python gen_w2v.py ../../data/toy_example/classification/glove.6B.50d.txt ../../data/toy_example/classification/word_dict.txt ../../data/toy_example/classification/embed_glove_d50
 python norm_embed.py  ../../data/toy_example/classification/embed_glove_d50 ../../data/toy_example/classification/embed_glove_d50_norm
 ```
+ - norm_embed.py can be skipped for the first phase
 
 ### Run to generate binsum for aNMM
 ```bash
