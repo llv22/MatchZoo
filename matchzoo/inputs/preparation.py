@@ -104,6 +104,7 @@ class Preparation(object):
             corpus_d[id2] = t2
             rels.append((label, id1, id2))
         f.close()
+        # generate corpus id for question and answer pairs
         return corpus_q, corpus_d, rels
 
     def run_with_train_valid_test_corpus(self, train_file, valid_file, test_file):
