@@ -62,7 +62,8 @@ def train(config):
 
     # collect embedding
     if 'embed_path' in share_input_conf:
-        embed_dict = read_embedding(filename=share_input_conf['embed_path'])
+        # in order to support fasttext
+        embed_dict = read_embedding(filename=share_input_conf['embed_path'], skip_header=True)
         _PAD_ = share_input_conf['vocab_size'] - 1
         embed_dict[_PAD_] = np.zeros((share_input_conf['embed_size'], ), dtype=np.float32)
         embed = np.float32(np.random.uniform(-0.2, 0.2, [share_input_conf['vocab_size'], share_input_conf['embed_size']]))

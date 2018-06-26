@@ -19,9 +19,14 @@ def read_word_dict(filename):
 
 
 # Read Embedding File
-def read_embedding(filename):
+def read_embedding(filename, skip_header=False):
     embed = {}
     for line in open(filename):
+        if skip_header:
+            # guarantee the header is skipped
+            n, w = line.split()
+            skip_header = False
+            continue
         line = line.strip().split()
         embed[int(line[0])] = list(map(float, line[1:]))
     print('[%s]\n\tEmbedding size: %d' % (filename, len(embed)), end='\n')
