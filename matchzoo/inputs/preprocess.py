@@ -441,6 +441,7 @@ def cal_binsum(t1_rep, t2_rep, qnum, bin_num):
     for (i, j), v in np.ndenumerate(mm):
         if i >= qnum:
             break
+        # caculate vid for binsum's baseket id
         vid = int((v + 1.) / 2. * (bin_num - 1.))
         mbinsum[i][vid] += v
     #mhist += 1. # smooth is not needed for computing bin sum

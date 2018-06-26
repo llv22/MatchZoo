@@ -21,3 +21,5 @@ MatchZoo.egg-info/
 # skip weights
 examples/toy_example/weights/
 
+# Visual Code one
+.vscode/

@@ -60,7 +60,6 @@ def train(config):
     input_conf = config['inputs']
     share_input_conf = input_conf['share']
 
-
     # collect embedding
     if 'embed_path' in share_input_conf:
         embed_dict = read_embedding(filename=share_input_conf['embed_path'])
