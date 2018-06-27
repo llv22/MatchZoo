@@ -312,6 +312,7 @@ class DRMM_PairGenerator(PairBasicGenerator):
         print('[DRMM_PairGenerator] init done', end='\n')
 
     def cal_hist(self, t1, t2, data1_maxlen, hist_size):
+        #  mhist = np.zeros((MAX_SEQUENCE_LENGTH, BIN_NUM), dtype=np.float32)
         mhist = np.zeros((data1_maxlen, hist_size), dtype=np.float32)
         t1_cont = list(self.data1[t1])
         t2_cont = list(self.data2[t2])
@@ -325,6 +326,7 @@ class DRMM_PairGenerator(PairBasicGenerator):
             else:
                 mhist[:, :] = caled_hist[:data1_maxlen, :]
         else:
+            # convert to t1_rep and t2_rep and make transpose for result
             t1_rep = self.embed[t1_cont]
             t2_rep = self.embed[t2_cont]
             mm = t1_rep.dot(np.transpose(t2_rep))
