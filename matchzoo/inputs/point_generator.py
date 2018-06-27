@@ -250,6 +250,7 @@ class DRMM_PointGenerator(object):
             else:
                 mhist[:, :] = caled_hist[:data1_maxlen, :]
         else:
+            # Convert to sentence model of binsum basket grouping
             t1_rep = self.embed[self.data1[t1]]
             t2_rep = self.embed[self.data2[t2]]
             mm = t1_rep.dot(np.transpose(t2_rep))
@@ -276,6 +277,7 @@ class DRMM_PointGenerator(object):
         if (not self.is_train) and self.total_rel_num - self.point < self.batch_size:
             curr_batch_size = self.total_rel_num - self.point
         ID_pairs = []
+        # X1 and X2 to normalize with padding for max len
         X1 = np.zeros((curr_batch_size, self.data1_maxlen), dtype=np.int32)
         X1_len = np.zeros((curr_batch_size,), dtype=np.int32)
         X2 = np.zeros((curr_batch_size, self.data1_maxlen, self.hist_size), dtype=np.float32)
