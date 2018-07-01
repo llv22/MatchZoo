@@ -436,13 +436,19 @@ def cal_hist(t1_rep, t2_rep, qnum, hist_size):
     return mhist.flatten()
 
 def cal_binsum(t1_rep, t2_rep, qnum, bin_num):
+    # print("qnum: ", qnum)
+    # print("bin_num: ", bin_num)
     mbinsum = np.zeros((qnum, bin_num), dtype=np.float32)
+    assert np.all(t1_rep >= -1) and np.all(t1_rep <= 1)
+    assert np.all(t2_rep >= -1) and np.all(t2_rep <= 1)
     mm = t1_rep.dot(np.transpose(t2_rep))
     for (i, j), v in np.ndenumerate(mm):
         if i >= qnum:
             break
-        # caculate vid for binsum's baseket id
+        # calculate vid for binsum's baseket id
+        # assert v >= -1 and v <=1
         vid = int((v + 1.) / 2. * (bin_num - 1.))
+        assert vid < bin_num
         mbinsum[i][vid] += v
     #mhist += 1. # smooth is not needed for computing bin sum
     #mhist = np.log10(mhist) # not needed for computing  bin sum
