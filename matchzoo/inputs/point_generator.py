@@ -79,7 +79,10 @@ class PointGenerator(object):
                 break
             X1, X1_len, X2, X2_len, Y, ID_pairs = sample
             if self.config['use_dpool']:
-                yield ({'query': X1, 'query_len': X1_len, 'doc': X2, 'doc_len': X2_len, 'dpool_index': DynamicMaxPooling.dynamic_pooling_index(X1_len, X2_len, self.config['text1_maxlen'], self.config['text2_maxlen']), 'ID':ID_pairs}, Y)
+                yield (
+                    {'query': X1, 'query_len': X1_len, 'doc': X2, 'doc_len': X2_len, 
+                    'dpool_index': DynamicMaxPooling.dynamic_pooling_index(X1_len, X2_len, self.config['text1_maxlen'], self.config['text2_maxlen']), 'ID':ID_pairs }, 
+                    Y)
             else:
                 yield ({'query': X1, 'query_len': X1_len, 'doc': X2, 'doc_len': X2_len, 'ID':ID_pairs}, Y)
 
