@@ -6,7 +6,19 @@
     "configurations": [
 
         {
-            "name": "Python: Current File - main.py",
+            "name": "Python: Current File - matchpyramid.py",
+            "type": "python",
+            "request": "launch",
+            "program": "${file}",
+            "args": [
+                "--phase",
+                "train",
+                "--model_file",
+                "examples/toy_example/config/matchpyramid_classify.config"
+            ],
+        },
+        {
+            "name": "Python: Current File - anmm.py",
             "type": "python",
             "request": "launch",
             "program": "${file}",
