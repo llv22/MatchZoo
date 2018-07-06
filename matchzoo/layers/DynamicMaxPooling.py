@@ -6,11 +6,13 @@ import numpy as np
 class DynamicMaxPooling(Layer):
 
     def __init__(self, psize1, psize2, **kwargs):
+        # for psize1, psize2 [3, 10]
         self.psize1 = psize1
         self.psize2 = psize2
         super(DynamicMaxPooling, self).__init__(**kwargs)
 
     def build(self, input_shape):
+        # for input data dimension layer : (None, 60, 60, 32)
         input_shape_one = input_shape[0]
         self.msize1 = input_shape_one[1]
         self.msize2 = input_shape_one[2]
@@ -25,6 +27,7 @@ class DynamicMaxPooling(Layer):
         suggestion1 = self.msize1 / stride1
         suggestion2 = self.msize2 / stride2
 
+        # should be consistent with kernel pooling size
         if suggestion1 != self.psize1 or suggestion2 != self.psize2:
             print("DynamicMaxPooling Layer can not "
                   "generate ({} x {}) output feature map,"
@@ -56,6 +59,7 @@ class DynamicMaxPooling(Layer):
                 print("[Error:DynamicPooling] len2 = 0 at batch_idx = {}".format(batch_idx))
                 exit()
             '''
+            # decide stride for len1 and len2 based on current len1 and len1 of sentence
             if len1_one == 0:
                 stride1 = max_len1
             else:
@@ -66,21 +70,26 @@ class DynamicMaxPooling(Layer):
             else:
                 stride2 = 1.0 * max_len2 / len2_one
 
+            # generate <len1 index for stride>, <len2 index for stride>
             idx1_one = [int(i / stride1) for i in range(max_len1)]
             idx2_one = [int(i / stride2) for i in range(max_len2)]
             mesh1, mesh2 = np.meshgrid(idx1_one, idx2_one)
+            assert mesh1.shape == mesh2.shape
             index_one = np.transpose(np.stack([np.ones(mesh1.shape) * batch_idx,
                                       mesh1, mesh2]), (2,1,0))
             return index_one
         index = []
         dpool_bias1 = dpool_bias2 = 0
+        # shifting up for dpool_bias1 and dpool_bias2
         if max_len1 % compress_ratio1 != 0:
             dpool_bias1 = 1
         if max_len2 % compress_ratio2 != 0:
             dpool_bias2 = 1
         cur_max_len1 = max_len1 // compress_ratio1 + dpool_bias1
         cur_max_len2 = max_len2 // compress_ratio2 + dpool_bias2
+        assert len(len1) == len(len2)
         for i in range(len(len1)):
+            # enumerate all batch size from [0, len1-1], generate convd parameter (0..len1-1, <len1 index for stride>, <len2 index for stride>)
             index.append(dpool_index_(i, len1[i] // compress_ratio1, 
                          len2[i] // compress_ratio2, cur_max_len1, cur_max_len2))
         return np.array(index)
